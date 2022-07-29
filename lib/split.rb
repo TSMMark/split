@@ -21,7 +21,7 @@ require 'split/trial'
 require 'split/user'
 require 'split/version'
 require 'split/zscore'
-require 'split/engine' if defined?(Rails)
+require 'split/engine' if defined?(Rails) && defined?(::Rails::Engine)
 
 module Split
   extend self
@@ -67,7 +67,7 @@ module Split
 end
 
 # Check to see if being run in a Rails application.  If so, wait until before_initialize to run configuration so Gems that create ENV variables have the chance to initialize first.
-if defined?(::Rails)
+if defined?(::Rails::Railtie)
   class Railtie < Rails::Railtie
     config.before_initialize { Split.configure {} }
   end
